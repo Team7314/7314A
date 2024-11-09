@@ -20,33 +20,29 @@ motor FrontLeft(PORT1, ratio6_1, true);
 motor BackLeft(PORT2, ratio6_1, true);
 motor FrontRight(PORT9, ratio6_1, false);
 motor BackRight(PORT10, ratio6_1, false);
-motor Conveyor(PORT5, ratio6_1, true);
-motor Roller(PORT15, ratio6_1, true);
+motor Conveyor(PORT5, ratio18_1, true);
+motor Roller(PORT8, ratio18_1, true);
 motor Arm(PORT11, ratio6_1, true);
 digital_out Clamp1 = digital_out(Brain.ThreeWirePort.A);
 digital_out Clamp2 = digital_out(Brain.ThreeWirePort.H);
 inertial Gyro = inertial (PORT13); 
 
-
-//global variables 
+/*global variables 
 float pi = 3.14; 
-float dia = 4.00; 
-float gearRatio = 1; 
+float dia = 3.25; 
+float gearRatio = 36.0/60.0; */
 
 
  /*void inchDrive(float target){ 
 
   float x = 0; 
   FrontLeft.setPosition(0, rev); 
-  BackRight.setPosition(0, rev); 
   x = FrontLeft.position(rev)*dia*pi*gearRatio; 
-  x = BackLeft.position(rev)*dia*pi*gearRatio; 
 
   if (target >= 0 ){
   while (x <= target ) { 
     drive(50, 50, 10); 
     x = FrontLeft.position(rev)*dia*pi*gearRatio; 
-    x = BackLeft.position(rev)*dia*pi*gearRatio; 
     Brain.Screen.printAt(10, 20, "inches = %0.2f", x); 
   }
   }
@@ -54,7 +50,6 @@ float gearRatio = 1;
     while (x <=fabs(target)){
       drive(-50, -50, 10); 
       x = -FrontLeft.position(rev)*dia*pi*gearRatio;
-      x = -BackLeft.position(rev)*dia*pi*gearRatio;
       Brain.Screen.printAt(10, 20, "inches = %0.2f", x); 
 
     }
@@ -62,37 +57,7 @@ float gearRatio = 1;
   drive(0, 0, 0);
 
  }
-
- 
-void gyroTurn(float target)
-{
-		float heading=0.0; //initialize a variable for heading
-		float accuracy=2.0; //how accurate to make the turn in degrees
-		float error=target-heading;
-		float kp=5.0;
-		float speed=kp*error;
-		Gyro.setRotation(0.0, degrees);  //reset Gyro to zero degrees
-		
-		while(fabs(error)>=accuracy)
-		{
-			speed=kp*error;
-			drive(speed, -speed, 10); //turn right at speed
-			heading=Gyro.rotation();  //measure the heading of the robot
-			error=target-heading;  //calculate error
-		}
-			drive(0, 0, 0);  //stop the drive
-}*/
-
-
-
-int alertTimes[]={
-  45000,
-  30000,
-  15000,
-  3000,
-  2000,
-  1000
-};
+*/
 
 // Functions
 void drive(int Lspeed,int Rspeed, int wt){ 
@@ -137,7 +102,15 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  
+  drive(-100, -100, 500);
+  driveBrake();
+  Clamp1.set(false);
+  Clamp2.set(false);
+  Conveyor.spin(forward);
+  wait(1000, msec);
+  Conveyor.stop(brake);
+
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -152,9 +125,11 @@ void autonomous(void) {
 
 void usercontrol(void) {
   bool flag = false;
+  int rollerspeed = 45;
+  int conveyorspeed = 65;
   Brain.resetTimer();
   while (1) {
-    int timeLeft = 60000 - Brain.Timer.time();
+
     
     int Lspeed = Controller.Axis3.position();
     int Rspeed = Controller.Axis2.position();
@@ -169,7 +144,7 @@ void usercontrol(void) {
     }
     if(Controller.ButtonA.pressing()) {
       if(flag == false){
-        Roller.spin(forward, 100, pct); 
+        Roller.spin(forward, 45, pct); 
         Conveyor.spin(forward, 65, pct);
         flag = true;
       }
@@ -182,14 +157,23 @@ void usercontrol(void) {
       while (Controller.ButtonA.pressing()) {
         wait(10, msec);      
         }
-
-    if(Controller.ButtonB.pressing()) {
-      if(flag == false){
-        Roller.spin(forward, -100, pct); 
-        Conveyor.spin(forward, -100, pct);
-        flag = true;
       }
-    }
+    else if(Controller.ButtonB.pressing()) {
+      if (flag==true){
+        rollerspeed = -rollerspeed;
+        conveyorspeed = -conveyorspeed;
+        Roller.stop(brake);
+        Conveyor.stop(brake);
+        wait(20, msec);
+        Roller.spin(forward, rollerspeed, pct); 
+        Conveyor.spin(forward, conveyorspeed, pct);
+       }
+            while (Controller.ButtonB.pressing()) {
+        wait(10, msec);      
+        }
+
+      }
+    
     if(Controller.ButtonR1.pressing()) {
       Arm.spin(forward, 100, pct);
     }
@@ -199,21 +183,9 @@ void usercontrol(void) {
     else{
       Arm.stop(brake);
     }
-    
+    }
+  }
 
-    for(int i=0; i<(sizeof(alertTimes)/sizeof(int));i++){
-      if(abs(alertTimes[i] - timeLeft) < 11){
-        Controller.Screen.clearLine(1);
-        Controller.Screen.setCursor(1, 0);
-        Controller.Screen.print("%d seconds remaining.", timeLeft/1000);
-        Controller.rumble("-");
-      }
-    }
-    }
-    wait(20, msec); //Sleep the task for a short amount of time to
-                    //prevent wasted resources.
-    }
-}
 
 //
 // Main will set up the competition functions and callbacks.
