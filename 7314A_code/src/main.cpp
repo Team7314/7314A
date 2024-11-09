@@ -125,8 +125,8 @@ void autonomous(void) {
 
 void usercontrol(void) {
   bool flag = false;
-  int rollerspeed = 45;
-  int conveyorspeed = 65;
+  int rollerspeed = 60;
+  int conveyorspeed = 50;
   Brain.resetTimer();
   while (1) {
 
@@ -144,8 +144,8 @@ void usercontrol(void) {
     }
     if(Controller.ButtonA.pressing()) {
       if(flag == false){
-        Roller.spin(forward, 45, pct); 
-        Conveyor.spin(forward, 65, pct);
+        Roller.spin(forward, 60, pct); 
+        Conveyor.spin(forward, 50, pct);
         flag = true;
       }
     
