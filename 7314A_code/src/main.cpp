@@ -102,15 +102,13 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  drive(-100, -100, 500);
+  drive(-100, -100, 650);
   driveBrake();
   Clamp1.set(false);
   Clamp2.set(false);
   Conveyor.spin(forward);
   wait(1000, msec);
   Conveyor.stop(brake);
-
-
 }
 
 /*---------------------------------------------------------------------------*/
