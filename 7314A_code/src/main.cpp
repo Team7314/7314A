@@ -27,37 +27,6 @@ digital_out Clamp1 = digital_out(Brain.ThreeWirePort.A);
 digital_out Clamp2 = digital_out(Brain.ThreeWirePort.H);
 inertial Gyro = inertial (PORT13); 
 
-/*global variables 
-float pi = 3.14; 
-float dia = 3.25; 
-float gearRatio = 36.0/60.0; */
-
-
- /*void inchDrive(float target){ 
-
-  float x = 0; 
-  FrontLeft.setPosition(0, rev); 
-  x = FrontLeft.position(rev)*dia*pi*gearRatio; 
-
-  if (target >= 0 ){
-  while (x <= target ) { 
-    drive(50, 50, 10); 
-    x = FrontLeft.position(rev)*dia*pi*gearRatio; 
-    Brain.Screen.printAt(10, 20, "inches = %0.2f", x); 
-  }
-  }
-  else if (target <0){ 
-    while (x <=fabs(target)){
-      drive(-50, -50, 10); 
-      x = -FrontLeft.position(rev)*dia*pi*gearRatio;
-      Brain.Screen.printAt(10, 20, "inches = %0.2f", x); 
-
-    }
-  }
-  drive(0, 0, 0);
-
- }
-*/
 
 // Functions
 void drive(int Lspeed,int Rspeed, int wt){ 
@@ -123,8 +92,7 @@ void autonomous(void) {
 
 void usercontrol(void) {
   bool flag = false;
-  int rollerspeed = 60;
-  int conveyorspeed = 50;
+  int conveyorspeed = 45;
   Brain.resetTimer();
   while (1) {
 
@@ -141,9 +109,9 @@ void usercontrol(void) {
       Clamp2.set(false); 
     }
     if(Controller.ButtonA.pressing()) {
-      if(flag == false){
+      if(flag == false){    
         Roller.spin(forward, 60, pct); 
-        Conveyor.spin(forward, 50, pct);
+        Conveyor.spin(forward, 45, pct);
         flag = true;
       }
     
@@ -158,12 +126,10 @@ void usercontrol(void) {
       }
     else if(Controller.ButtonB.pressing()) {
       if (flag==true){
-        rollerspeed = -rollerspeed;
         conveyorspeed = -conveyorspeed;
-        Roller.stop(brake);
         Conveyor.stop(brake);
         wait(20, msec);
-        Roller.spin(forward, rollerspeed, pct); 
+
         Conveyor.spin(forward, conveyorspeed, pct);
        }
             while (Controller.ButtonB.pressing()) {
