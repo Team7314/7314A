@@ -71,13 +71,20 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
+  Clamp1.set(true);
+  Clamp2.set(true);
+  //opens the clamp
   drive(-100, -100, 650);
+  //drives backward
   driveBrake();
   Clamp1.set(false);
   Clamp2.set(false);
+  //clamps
   Conveyor.spin(forward);
+  //puts the donut on the stake
   wait(1000, msec);
   Conveyor.stop(brake);
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -92,7 +99,8 @@ void autonomous(void) {
 
 void usercontrol(void) {
   bool flag = false;
-  int conveyorspeed = 55;
+  int conveyorspeed = 45;
+  int rollerspeed = 60;
   Brain.resetTimer();
   while (1) {
 
@@ -111,7 +119,7 @@ void usercontrol(void) {
     if(Controller.ButtonA.pressing()) {
       if(flag == false){    
         Roller.spin(forward, 60, pct); 
-        Conveyor.spin(forward, 55, pct);
+        Conveyor.spin(forward, 45, pct);
         flag = true;
       }
     
@@ -128,9 +136,12 @@ void usercontrol(void) {
       if (flag==true){
         conveyorspeed = -conveyorspeed;
         Conveyor.stop(brake);
+        rollerspeed = -rollerspeed;
+        Roller.stop(brake);
         wait(20, msec);
 
         Conveyor.spin(forward, conveyorspeed, pct);
+        Roller.spin(forward, rollerspeed, pct);
        }
             while (Controller.ButtonB.pressing()) {
         wait(10, msec);      
@@ -151,17 +162,13 @@ void usercontrol(void) {
   }
 
 
-//
 // Main will set up the competition functions and callbacks.
-//
 int main() {
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
-
   // Run the pre-autonomous function.
   pre_auton();
-
   // Prevent main from exiting with an infinite loop.
   while (true) {
     wait(100, msec);
