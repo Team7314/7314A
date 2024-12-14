@@ -86,7 +86,7 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  Clamp1.set(true);
+  /*Clamp1.set(true);
   Clamp2.set(true);
   //opens the clamp
   drive(-100, -100, 650);
@@ -108,7 +108,7 @@ void autonomous(void) {
   Conveyor.stop(brake);
   turnLeft(100, 100, 600);
   drive(100, 100, 50);
-  driveBrake();
+  driveBrake();*/
 
 }
 
