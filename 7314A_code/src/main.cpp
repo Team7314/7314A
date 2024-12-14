@@ -45,18 +45,18 @@ void driveBrake() {
 }
 
 void turnRight(int Lspeed, int Rspeed, int wt) {
-  FrontLeft.spin(reverse, Lspeed, wt);
-  BackLeft.spin(reverse, Lspeed, wt);
-  FrontRight.spin(forward, Rspeed, wt);
-  BackRight.spin(forward, Rspeed, wt);
+  FrontLeft.spin(reverse, Lspeed, pct);
+  BackLeft.spin(reverse, Lspeed, pct);
+  FrontRight.spin(forward, Rspeed, pct);
+  BackRight.spin(forward, Rspeed, pct);
   wait(wt, msec);
 }
 
 void turnLeft(int Lspeed, int Rspeed, int wt) {
-  FrontLeft.spin(forward, Lspeed, wt);
-  BackLeft.spin(forward, Lspeed, wt);
-  FrontRight.spin(reverse, Rspeed, wt);
-  BackRight.spin(reverse, Rspeed, wt);
+  FrontLeft.spin(forward, Lspeed, pct);
+  BackLeft.spin(forward, Lspeed, pct);
+  FrontRight.spin(reverse, Rspeed, pct);
+  BackRight.spin(reverse, Rspeed, pct);
   wait(wt, msec);
 }
 // define your global instances of motors and other devices here
