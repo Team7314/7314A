@@ -44,6 +44,21 @@ void driveBrake() {
 
 }
 
+void turnRight(int Lspeed, int Rspeed, int wt) {
+  FrontLeft.spin(reverse, Lspeed, Rspeed);
+  BackLeft.spin(reverse, Lspeed, Rspeed);
+  FrontRight.spin(forward, Lspeed, Rspeed);
+  BackRight.spin(forward, Lspeed, Rspeed);
+  wait(wt, msec);
+}
+
+void turnLeft(int Lspeed, int Rspeed, int wt) {
+  FrontLeft.spin(forward, Lspeed, Rspeed);
+  BackLeft.spin(forward, Lspeed, Rspeed);
+  FrontRight.spin(reverse, Lspeed, Rspeed);
+  BackRight.spin(reverse, Lspeed, Rspeed);
+  wait(wt, msec);
+}
 // define your global instances of motors and other devices here
 
 /*---------------------------------------------------------------------------*/
@@ -80,10 +95,20 @@ void autonomous(void) {
   Clamp1.set(false);
   Clamp2.set(false);
   //clamps
-  Conveyor.spin(forward);
+  Conveyor.spin(forward, 100, pct);
   //puts the donut on the stake
   wait(1000, msec);
   Conveyor.stop(brake);
+  turnLeft(100, 100, 600);
+  drive(100, 100, 600);
+  Roller.spin(forward, 100, pct);
+  Conveyor.spin(forward, 100, pct);
+  wait(1000, msec);
+  Roller.stop(brake);
+  Conveyor.stop(brake);
+  turnLeft(100, 100, 600);
+  drive(100, 100, 50);
+  driveBrake();
 
 }
 
