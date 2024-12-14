@@ -45,18 +45,18 @@ void driveBrake() {
 }
 
 void turnRight(int Lspeed, int Rspeed, int wt) {
-  FrontLeft.spin(reverse, Lspeed, Rspeed);
-  BackLeft.spin(reverse, Lspeed, Rspeed);
-  FrontRight.spin(forward, Lspeed, Rspeed);
-  BackRight.spin(forward, Lspeed, Rspeed);
+  FrontLeft.spin(reverse, Lspeed, wt);
+  BackLeft.spin(reverse, Lspeed, wt);
+  FrontRight.spin(forward, Rspeed, wt);
+  BackRight.spin(forward, Rspeed, wt);
   wait(wt, msec);
 }
 
 void turnLeft(int Lspeed, int Rspeed, int wt) {
-  FrontLeft.spin(forward, Lspeed, Rspeed);
-  BackLeft.spin(forward, Lspeed, Rspeed);
-  FrontRight.spin(reverse, Lspeed, Rspeed);
-  BackRight.spin(reverse, Lspeed, Rspeed);
+  FrontLeft.spin(forward, Lspeed, wt);
+  BackLeft.spin(forward, Lspeed, wt);
+  FrontRight.spin(reverse, Rspeed, wt);
+  BackRight.spin(reverse, Rspeed, wt);
   wait(wt, msec);
 }
 // define your global instances of motors and other devices here
@@ -86,7 +86,8 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  /*Clamp1.set(true);
+  /*
+  Clamp1.set(true);
   Clamp2.set(true);
   //opens the clamp
   drive(-100, -100, 650);
@@ -108,8 +109,8 @@ void autonomous(void) {
   Conveyor.stop(brake);
   turnLeft(100, 100, 600);
   drive(100, 100, 50);
-  driveBrake();*/
-
+  driveBrake();
+*/
 }
 
 /*---------------------------------------------------------------------------*/
