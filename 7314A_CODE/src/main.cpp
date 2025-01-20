@@ -29,12 +29,55 @@ inertial Gyro = inertial (PORT13);
 
 
 // Functions
-void drive(int Lspeed,int Rspeed, int wt){ 
+void drive(int Lspeed,int Rspeed, int wt){  //drive function
   FrontLeft.spin(forward, Lspeed, pct);
   BackLeft.spin(forward, Lspeed, pct);
   FrontRight.spin(forward, Rspeed, pct);
   BackRight.spin(forward, Rspeed, pct);
   wait(wt, msec);
+}
+
+void driveBrake(){ //brake drive
+  FrontLeft.stop(brake);
+  BackLeft.stop(brake);
+  FrontRight.stop(brake);
+  BackRight.stop(brake);
+}
+void gyroTurn(float target)
+{
+		float heading = 0.0; //initialize a variable for heading
+		float accuracy = 2.0; //how accurate to make the turn in degrees
+		float error = target-heading;
+		float kp = 5.0;
+		float speed = kp * error;
+		Gyro.setRotation(0.0, degrees);  //reset Gyro to zero degrees
+		
+		while(fabs(error) >= accuracy)
+		{
+			speed=kp*error;
+			drive(speed * error/error, speed * error/error, 10); //turn right at speed
+			heading = Gyro.rotation();  //measure the heading of the robot
+			error = target - heading;  //calculate error
+		}
+			driveBrake();  //stop the drive
+}
+void inchDrive(float target)
+{
+		float x = 0.0;
+		float accuracy = 1.0; //how accurate to make the turn in degrees
+		float error = target - x;
+		float kp = 5.0;
+		float speed = kp * error;
+		FrontLeft.setPosition(0, rev);
+		
+		while(fabs(error) >= accuracy)
+		{
+			speed = kp * error;
+			drive(speed, speed, 10); //turn right at speed
+			x = FrontLeft.position(rev) * 3.25 * 3.14 * 0.6;
+			error = target - x;  //calculate error
+		}
+			driveBrake();  //stop the drive
 }
 
 // define your global instances of motors and other devices here
@@ -64,31 +107,7 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  /*
-  Clamp1.set(true);
-  Clamp2.set(true);
-  //opens the clamp
-  drive(-100, -100, 650);
-  //drives backward
-  driveBrake();
-  Clamp1.set(false);
-  Clamp2.set(false);
-  //clamps
-  Conveyor.spin(forward, 100, pct);
-  //puts the donut on the stake
-  wait(1000, msec);
-  Conveyor.stop(brake);
-  turnLeft(100, 100, 600);
-  drive(100, 100, 600);
-  Roller.spin(forward, 100, pct);
-  Conveyor.spin(forward, 100, pct);
-  wait(1000, msec);
-  Roller.stop(brake);
-  Conveyor.stop(brake);
-  turnLeft(100, 100, 600);
-  drive(100, 100, 50);
-  driveBrake();
-*/
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -165,8 +184,8 @@ void usercontrol(void) {
   }
 
 
-// Main will set up the competition functions and callbacks.
-int main() {
+
+int main() { // set up the competition functions and callbacks.
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
