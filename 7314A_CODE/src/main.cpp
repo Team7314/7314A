@@ -20,7 +20,7 @@ motor FrontLeft(PORT1, ratio6_1, true);
 motor BackLeft(PORT2, ratio6_1, true);
 motor FrontRight(PORT9, ratio6_1, false);
 motor BackRight(PORT10, ratio6_1, false);
-motor rollerbelt1(PORT5, ratio18_1, true);
+motor rollerbelt1(PORT16, ratio18_1, true);
 motor rollerbelt2(PORT8, ratio18_1, true);
 motor Arm(PORT11, ratio6_1, true);
 digital_out Clamp1 = digital_out(Brain.ThreeWirePort.A);
@@ -123,7 +123,7 @@ void autonomous(void) {
 void usercontrol(void) {
   
   bool flag = false;
-  int rbspeed = 45;
+  int rbspeed = 100;
   Brain.resetTimer();
   while (1) {
 
@@ -141,8 +141,8 @@ void usercontrol(void) {
     }
     if(Controller.ButtonA.pressing()) {
       if(flag == false){    
-        rollerbelt1.spin(forward, 60, pct); 
-        rollerbelt2.spin(forward, 45, pct);
+        rollerbelt1.spin(forward, 100, pct); 
+        rollerbelt2.spin(reverse, 100, pct);
         flag = true;
       }
     
@@ -163,7 +163,7 @@ void usercontrol(void) {
         wait(20, msec);
 
         rollerbelt1.spin(forward, rbspeed, pct);
-        rollerbelt2.spin(forward, rbspeed, pct);
+        rollerbelt2.spin(reverse, rbspeed, pct);
        }
             while (Controller.ButtonB.pressing()) {
         wait(10, msec);      
