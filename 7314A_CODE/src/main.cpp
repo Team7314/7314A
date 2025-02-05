@@ -66,7 +66,7 @@ void inchDrive(float target)
 		float x = 0.0;
 		float accuracy = 1.0; //how accurate to make the turn in degrees
 		float error = target - x;
-		float kp = 5.0;
+		float kp = 7.5;
 		float speed = kp * error;
 		FrontLeft.setPosition(0, rev);
 		
@@ -107,7 +107,6 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-
 }
 
 /*---------------------------------------------------------------------------*/
