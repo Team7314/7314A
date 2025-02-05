@@ -79,7 +79,22 @@ void inchDrive(float target)
 		}
 			driveBrake();  //stop the drive
 }
+  void button1(){
+    while(true) {
+        // Check if the screen is being pressed
+        if(Brain.Screen.pressing()) {
+            // Get the X and Y coordinates of the touch
+            int x = Brain.Screen.xPosition();
+            int y = Brain.Screen.yPosition();
 
+            // Print the coordinates of the touch
+            Brain.Screen.printAt(x, y, "Touch at (%d, %d)", x, y);
+
+            // Wait for a short time to avoid repeated prints during a single touch
+            wait(500,msec);
+        }
+    }
+  }
 // define your global instances of motors and other devices here
 
 /*---------------------------------------------------------------------------*/
