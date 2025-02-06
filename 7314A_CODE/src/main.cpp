@@ -43,6 +43,7 @@ void driveBrake(){ //brake drive
   FrontRight.stop(brake);
   BackRight.stop(brake);
 }
+
 void gyroTurn(float target)
 {
 		float heading = 0.0; //initialize a variable for heading
@@ -61,6 +62,29 @@ void gyroTurn(float target)
 		}
 			driveBrake();  //stop the drive
 }
+void gyroTurnRight(float target) {
+  float heading=0.0; //initialize a variable for heading
+  Gyro.setRotation(0.0, degrees);  //reset Gyro to zero degrees
+  while(heading<=target)
+  {
+  drive(50, -50, 10); //turn right at half speed
+  heading=Gyro.rotation(deg);  //measure the heading of the robot
+  }
+  drive(0, 0, 0);  //stop the drive
+}
+
+void gyroTurnLeft(float target) {
+  float heading=0.0; //initialize a variable for heading
+  Gyro.setRotation(0.0, degrees);  //reset Gyro to zero degrees
+  while(heading<=target)
+  {
+  drive(-50, 50, 10); //turn left at half speed
+  heading=Gyro.rotation(deg);  //measure the heading of the robot
+  }
+  drive(0, 0, 0);  //stop the drive
+}
+
+
 void inchDrive(float target)
 {
 		float x = 0.0;
@@ -79,22 +103,6 @@ void inchDrive(float target)
 		}
 			driveBrake();  //stop the drive
 }
-  void button1(){
-    while(true) {
-        // Check if the screen is being pressed
-        if(Brain.Screen.pressing()) {
-            // Get the X and Y coordinates of the touch
-            int x = Brain.Screen.xPosition();
-            int y = Brain.Screen.yPosition();
-
-            // Print the coordinates of the touch
-            Brain.Screen.printAt(x, y, "Touch at (%d, %d)", x, y);
-
-            // Wait for a short time to avoid repeated prints during a single touch
-            wait(500,msec);
-        }
-    }
-  }
 // define your global instances of motors and other devices here
 
 /*---------------------------------------------------------------------------*/
@@ -108,8 +116,8 @@ void inchDrive(float target)
 /*---------------------------------------------------------------------------*/
 
 void pre_auton(void) {
-  Clamp1.set(true); 
-  Clamp2.set(true);
+  // Clamp1.set(true); 
+  // Clamp2.set(true);
 }
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -130,6 +138,12 @@ void autonomous(void) {
   Clamp2.set(true);
   wait(500, msec);
   rollerbelt2.spin(forward, 100, pct);
+  wait(2500, msec);
+  rollerbelt2.stop(brake);
+  wait(500, msec);
+  gyroTurnRight(50);
+  inchDrive(22);
+  Arm.spin(forward, 25, pct);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -164,7 +178,7 @@ void usercontrol(void) {
     if(Controller.ButtonA.pressing()) {
       if(flag == false){    
         rollerbelt1.spin(forward, 100, pct); 
-        rollerbelt2.spin(reverse, 100, pct);
+        rollerbelt2.spin(forward, 100, pct);
         flag = true;
       }
     
@@ -187,8 +201,8 @@ void usercontrol(void) {
         rollerbelt1.spin(forward, rbspeed, pct);
         rollerbelt2.spin(reverse, rbspeed, pct);
        }
-            while (Controller.ButtonB.pressing()) {
-        wait(10, msec);      
+        while (Controller.ButtonB.pressing()) {
+          wait(10, msec);      
         }
 
       }
