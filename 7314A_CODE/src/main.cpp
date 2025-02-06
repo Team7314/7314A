@@ -123,6 +123,9 @@ void pre_auton(void) {
 
 void autonomous(void) {
   inchDrive(-29.5);
+  Clamp1.set(true);
+  Clamp2.set(true);
+  rollerbelt2.spin(forward, 100, pct);
 }
 
 /*---------------------------------------------------------------------------*/
