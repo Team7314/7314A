@@ -21,7 +21,7 @@ motor BackLeft(PORT2, ratio6_1, true);
 motor FrontRight(PORT9, ratio6_1, false);
 motor BackRight(PORT10, ratio6_1, false);
 motor rollerbelt1(PORT16, ratio18_1, true);
-motor rollerbelt2(PORT8, ratio18_1, true);
+motor rollerbelt2(PORT8, ratio18_1, false);
 motor Arm(PORT11, ratio6_1, true);
 digital_out Clamp1 = digital_out(Brain.ThreeWirePort.A);
 digital_out Clamp2 = digital_out(Brain.ThreeWirePort.H);
@@ -122,9 +122,13 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  inchDrive(-29.5);
+  Clamp1.set(false);
+  Clamp2.set(false);
+  inchDrive(-29);
+  wait(500, msec);
   Clamp1.set(true);
   Clamp2.set(true);
+  wait(500, msec);
   rollerbelt2.spin(forward, 100, pct);
 }
 
