@@ -79,7 +79,7 @@ void gyroTurnLeft(float target) {
   while(heading<=target)
   {
   drive(-50, 50, 10); //turn left at half speed
-  heading=Gyro.rotation(deg);  //measure the heading of the robot
+  heading= -Gyro.rotation(deg);  //measure the heading of the robot
   }
   drive(0, 0, 0);  //stop the drive
 }
@@ -129,7 +129,7 @@ void pre_auton(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void autonomous(void) {
+void autonGetFirstMogo(void) {
   Clamp1.set(false);
   Clamp2.set(false);
   inchDrive(-29);
@@ -139,11 +139,29 @@ void autonomous(void) {
   wait(500, msec);
   rollerbelt2.spin(forward, 100, pct);
   wait(2500, msec);
-  rollerbelt2.stop(brake);
-  wait(500, msec);
+  // rollerbelt2.stop(brake);
+  // wait(250, msec);
+}
+
+void autonMogoToLadder(void){
+  // wait(250, msec);
   gyroTurnRight(50);
   inchDrive(22);
-  Arm.spin(forward, 25, pct);
+  wait(250, msec);
+  // Arm.spin(forward, 25, pct);
+}
+
+void autonLeftTurn(void){
+  inchDrive(-15);
+  wait(250, msec);
+  gyroTurnLeft(28);
+  inchDrive(15);
+}
+
+void autonomous(void) {
+  autonGetFirstMogo();
+  autonLeftTurn();
+  
 }
 
 /*---------------------------------------------------------------------------*/
@@ -198,7 +216,7 @@ void usercontrol(void) {
         rollerbelt2.stop(brake);
         wait(20, msec);
 
-        rollerbelt1.spin(forward, rbspeed, pct);
+        rollerbelt1.spin(reverse, rbspeed, pct);
         rollerbelt2.spin(reverse, rbspeed, pct);
        }
         while (Controller.ButtonB.pressing()) {
