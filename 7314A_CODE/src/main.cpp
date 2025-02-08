@@ -148,7 +148,7 @@ void autonMogoToLadder(void){
   gyroTurnRight(50);
   inchDrive(22);
   wait(250, msec);
-  // Arm.spin(forward, 25, pct);
+  //Arm.spin(forward, 25, pct);
 }
 
 void autonLeftTurn(void){
@@ -175,7 +175,7 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  
+  bool armflag = false; 
   bool flag = false;
   int rbspeed = 100;
   Brain.resetTimer();
@@ -227,16 +227,17 @@ void usercontrol(void) {
     
     if(Controller.ButtonR1.pressing()) {
       Arm.spin(forward, 100, pct);
+      armflag = true;
     }
     else if(Controller.ButtonR2.pressing()) {
       Arm.spin(forward, -100, pct);
+      armflag = true;
     }
-    else{
-      Arm.stop(brake);
+      while(armflag == true){
+        Arm.stop(brake);
     }
     }
-  }
-
+}
 
 
 int main() { // set up the competition functions and callbacks.
