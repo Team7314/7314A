@@ -22,6 +22,7 @@ motor FrontRight(PORT9, ratio6_1, false);
 motor BackRight(PORT10, ratio6_1, false);
 motor rollerbelt1(PORT16, ratio18_1, true);
 motor rollerbelt2(PORT8, ratio18_1, false);
+motor rollerbelt3(PORT7, ratio18_1, false);
 motor Arm(PORT11, ratio6_1, true);
 digital_out Clamp1 = digital_out(Brain.ThreeWirePort.A);
 digital_out Clamp2 = digital_out(Brain.ThreeWirePort.H);
