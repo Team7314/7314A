@@ -230,7 +230,7 @@ void usercontrol(void) {
 
       }
     
-    if(Controller.ButtonR1.pressing()) {
+    /*if(Controller.ButtonR1.pressing()) {
       Arm.spin(forward, 100, pct);
       armflag = true;
     }
@@ -240,7 +240,7 @@ void usercontrol(void) {
     }
       while(armflag == true){
         Arm.stop(brake);
-    }
+    }*/
     }
 }
 
