@@ -158,10 +158,15 @@ void autonLeftTurn(void){
   gyroTurnLeft(28);
   inchDrive(15);
 }
-
+void autonRightTurn(void){
+  inchDrive(-15);
+  wait(250, msec);
+  gyroTurnRight(28);
+  inchDrive(15);
+}
 void autonomous(void) {
   autonGetFirstMogo();
-  autonLeftTurn();
+  autonRightTurn();
   
 }
 
