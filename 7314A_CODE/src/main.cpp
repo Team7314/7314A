@@ -166,7 +166,7 @@ void autonRightTurn(void){
 }
 void autonomous(void) {
   autonGetFirstMogo();
-  autonRightTurn();
+  autonLeftTurn();
   
 }
 
