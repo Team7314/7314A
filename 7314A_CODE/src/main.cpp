@@ -234,19 +234,20 @@ void usercontrol(void) {
         }
 
       }
-    
-    /*if(Controller.ButtonR1.pressing()) {
-      Arm.spin(forward, 100, pct);
-      armflag = true;
-    }
-    else if(Controller.ButtonR2.pressing()) {
-      Arm.spin(forward, -100, pct);
-      armflag = true;
-    }
-      while(armflag == true){
+
+      if(Controller.ButtonR1.pressing()) {
+        while (Controller.ButtonR1.pressing()){
+          Arm.spin(forward, 65, pct);
+        }
         Arm.stop(brake);
-    }*/
-    }
+      }
+      if(Controller.ButtonR2.pressing()) {
+        while (Controller.ButtonR2.pressing()){
+          Arm.spin(forward, -65, pct);
+        }
+        Arm.stop(brake);
+      }
+  }
 }
 
 
