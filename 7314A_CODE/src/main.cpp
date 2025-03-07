@@ -138,7 +138,8 @@ void autonGetFirstMogo(void) {
   Clamp1.set(true);
   Clamp2.set(true);
   wait(500, msec);
-  rollerbelt2.spin(forward, 100, pct);
+  rollerbelt2.spin(forward, 80, pct);
+  rollerbelt2.spin(forward, 80, pct);
   wait(2500, msec);
   // rollerbelt2.stop(brake);
   // wait(250, msec);
@@ -167,6 +168,7 @@ void autonRightTurn(void){
 void autonomous(void) {
   autonGetFirstMogo();
   autonRightTurn();
+  inchDrive(5);
   
 }
 
@@ -181,9 +183,8 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  bool armflag = false; 
   bool flag = false;
-  int rbspeed = 100;
+  int rbspeed = 90;
   Brain.resetTimer();
   while (1) {
 
@@ -201,9 +202,9 @@ void usercontrol(void) {
     }
     if(Controller.ButtonA.pressing()) {
       if(flag == false){    
-        rollerbelt1.spin(forward, 100, pct); 
-        rollerbelt2.spin(forward, 100, pct);
-        rollerbelt3.spin(forward, 100, pct);
+        rollerbelt1.spin(forward, 90, pct); 
+        rollerbelt2.spin(forward, 80, pct);
+        rollerbelt3.spin(forward, 80, pct);
         flag = true;
       }
     
