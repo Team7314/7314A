@@ -23,9 +23,9 @@ motor BackRight(PORT10, ratio6_1, false);
 motor rollerbelt1(PORT16, ratio18_1, true);
 motor rollerbelt2(PORT8, ratio18_1, false);
 motor rollerbelt3(PORT7, ratio18_1, true);
-motor Arm(PORT11, ratio6_1, true);    
 digital_out Clamp1 = digital_out(Brain.ThreeWirePort.A);
 digital_out Clamp2 = digital_out(Brain.ThreeWirePort.H);
+digital_out Arm = digital_out(Brain.ThreeWirePort.B);
 inertial Gyro = inertial (PORT13); 
 
 
@@ -235,20 +235,14 @@ void usercontrol(void) {
         }
 
       }
-
       if(Controller.ButtonR1.pressing()) {
-        while (Controller.ButtonR1.pressing()){
-          Arm.spin(forward, 65, pct);
+          Arm.set(true);
         }
-        Arm.stop(brake);
-      }
+      
       if(Controller.ButtonR2.pressing()) {
-        while (Controller.ButtonR2.pressing()){
-          Arm.spin(forward, -65, pct);
-        }
-        Arm.stop(brake);
+        Arm.set(false);
       }
-  }
+    }
 }
 
 
